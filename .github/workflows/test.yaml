@@ -20,3 +20,5 @@ jobs:
           echo ::set-output name=idtoken::$ID_TOKEN
           echo $ID_TOKEN > idtoken.txt
           cat idtoken.txt
+      - name: Print Token
+        run: echo "Token is:$ID_TOKEN"    
