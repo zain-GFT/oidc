@@ -2,7 +2,7 @@ name: GitHub Actions
 on: [push]
 jobs:
   Job-One:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       id-token: write
     steps:
@@ -19,6 +19,3 @@ jobs:
           ID_TOKEN=$(curl -H "Authorization: bearer ${token}" ${runtimeUrl} | jq -r ".value")
           echo ::set-output name=idtoken::$ID_TOKEN
           echo $ID_TOKEN > idtoken.txt
-          cat idtoken.txt
-      - name: Print Token
-        run: cat token.txt  
