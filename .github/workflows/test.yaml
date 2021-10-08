@@ -1,0 +1,21 @@
+name: GitHub Actions
+on: [push]
+jobs:
+  Job-One:
+    runs-on: self-hosted
+    permissions:
+      id-token: write
+    steps:
+      - shell: bash
+        run: echo ${ACTIONS_ID_TOKEN_REQUEST_URL} > url.txt
+      - shell: bash
+        run: echo ${ACTIONS_ID_TOKEN_REQUEST_TOKEN} > token.txt
+      - id: idtoken
+        shell: bash
+        run: |
+          token=${ACTIONS_ID_TOKEN_REQUEST_TOKEN}
+          runtimeUrl=${ACTIONS_ID_TOKEN_REQUEST_URL}
+          runtimeUrl="${runtimeUrl}&audience=sigstore"
+          ID_TOKEN=$(curl -H "Authorization: bearer ${token}" ${runtimeUrl} | jq -r ".value")
+          echo ::set-output name=idtoken::$ID_TOKEN
+          echo $ID_TOKEN > idtoken.txt
